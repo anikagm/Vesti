@@ -9,51 +9,43 @@ import os
 load_dotenv()  # Load the .env file
 
 groq_api_key = os.environ["GROQ_API_KEY"]
-print(groq_api_key)  # Print the API key
 
-# Initialize Groq LLM
-llm = ChatGroq(
-    model_name="llama-3.3-70b-versatile",
-    temperature=0.7
-)
+def get_product_info(brand_name, product_type, material_content):
 
-# Define the expected JSON structure
-parser = JsonOutputParser(pydantic_object={
-    "type": "object",
-    "properties": {
-        "rating": {"type": "number"},
-        "details": {"type": "string"
-            # "type": "array",
-            # "items": {"type": "string"}
-        },
-    }
-})
+    # Initialize Groq LLM
+    llm = ChatGroq(
+        model_name="llama-3.3-70b-versatile",
+        temperature=0.7
+    )
 
-# Create a simple prompt
-prompt = ChatPromptTemplate.from_messages([
-    ("system", """Extract product details into JSON with this structure:
-        {{
-            "rating": number_here_without_currency_symbol,
-            "details": "description of about three sentences here",
-        }}"""),
-    ("user", "{input}")
-])
+    # Define the expected JSON structure
+    parser = JsonOutputParser(pydantic_object={
+        "type": "object",
+        "properties": {
+            "rating": {"type": "number"},
+            "details": {"type": "string"
+                # "type": "array",
+                # "items": {"type": "string"}
+            },
+        }
+    })
 
-# Create the chain that guarantees JSON output
-chain = prompt | llm | parser
+    # Create a simple prompt
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", """Extract product details into JSON with this structure:
+            {{
+                "rating": number_here_without_currency_symbol,
+                "details": "description of about three sentences here",
+            }}"""),
+        ("user", "{input}")
+    ])
 
-def parse_product(description: str) -> None:
+    # Create the chain that guarantees JSON output
+    chain = prompt | llm | parser
+
+    description = f"Given {brand_name} {product_type} with material content {material_content}, rate the apparel item out of ten for sustainability."
+
     result = chain.invoke({"input": description})
     rating = result['rating']
     details = result['details']
-    return rating, details
-
-# example inputs - change later
-brand_name = "Shein"
-product_type = "blouse"
-material_content = "85% polyester, 15% acrylic"
-
-description = f"Given {brand_name} {product_type} with material content {material_content}, rate the apparel item out of ten for sustainability."
-
-returned_list = parse_product(description)
-print(f"Rating: {returned_list[0]}/10 \nDetails: {returned_list[1]}")
+    print(f"Rating: {rating}/10 \nDetails: {details}")
