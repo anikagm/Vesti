@@ -9,51 +9,43 @@ import os
 load_dotenv()  # Load the .env file
 
 groq_api_key = os.environ["GROQ_API_KEY"]
-print(groq_api_key)  # Print the API key
 
-# Initialize Groq LLM
-llm = ChatGroq(
-    model_name="llama-3.3-70b-versatile",
-    temperature=0.7
-)
+def allergen_details(product_type, material_content):
+    # Initialize Groq LLM
+    llm = ChatGroq(
+        model_name="llama-3.3-70b-versatile",
+        temperature=0.7
+    )
 
-# Define the expected JSON structure
-parser = JsonOutputParser(pydantic_object={
-    "type": "object",
-    "properties": {
-        "allergens": {
-            "type": "array",
-            "items": {"type": "string"}
-        },
-        "associated hazards": {"type": "string"}
-    }
-})
+    # Define the expected JSON structure
+    parser = JsonOutputParser(pydantic_object={
+        "type": "object",
+        "properties": {
+            "allergens": {
+                "type": "array",
+                "items": {"type": "string"}
+            },
+            "associated hazards": {"type": "string"}
+        }
+    })
 
-# Create a simple prompt
-prompt = ChatPromptTemplate.from_messages([
-    ("system", """Extract product details into JSON with this structure:
-        {{
-            "allergens": ["allergen1", "allergen2", "allergen3"]
-            "associated hazards": "associated health hazards here in 5 sentences maximum"
-        }}"""),
-    ("user", "{input}")
-])
+    # Create a simple prompt
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", """Extract product details into JSON with this structure:
+            {{
+                "allergens": ["allergen1", "allergen2", "allergen3"]
+                "associated hazards": "associated health hazards here in 5 sentences maximum"
+            }}"""),
+        ("user", "{input}")
+    ])
 
-# Create the chain that guarantees JSON output
-chain = prompt | llm | parser
+    # Create the chain that guarantees JSON output
+    chain = prompt | llm | parser
 
-def parse_product(description: str) -> None:
+    description = f"Given {product_type} with {material_content}, list all possible allergens or irritants in the apparel item. Also list any health hazards associated with each possible allergen."
+
     result = chain.invoke({"input": description})
     allergens = result['allergens']
     hazards = result['associated hazards']
-    return allergens, hazards
-
-
-# Example input - change later 
-product_type = "T-shirt"
-material_content = "85% polyester, 15% acrylic"
-
-description = f"Given {product_type} with {material_content}, list all possible allergens or irritants in the apparel item. Also list any health hazards associated with each possible allergen."
-
-returned_values = parse_product(description)
-print(f"Allergens: {returned_values[0]}\nHealth hazards:\n  {returned_values[1]}")
+    
+    print(f"Allergens: {allergens}\nHealth hazards:\n  {hazards}")
