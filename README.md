@@ -38,9 +38,6 @@ main.py: The code is in charge of taking the barcode image, match it with a numb
 product_info.py: The code is in charge of getting information about a product, like the sustainability rating and description, based on a product's details.
 
 
-## Contributing
-
-
 ## Presentation Source Links
 1. https://pmc.ncbi.nlm.nih.gov/articles/PMC8257395/
 2. https://www.statista.com/statistics/1305696/apparel-industry-co2e-emissions/
