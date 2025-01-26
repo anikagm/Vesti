@@ -1,62 +1,57 @@
-from langchain_groq import ChatGroq
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import JsonOutputParser
-# import json
-from dotenv import load_dotenv
+import requests
+import json
 import os
+from dotenv import load_dotenv
+from PIL import Image
+import base64
+from groq import Groq
 
-# API key: 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
+# Load environment variables from .env file
+load_dotenv()
 
-load_dotenv()  # Load the .env file
+# Set API key and organization ID from environment variables
+api_key = os.getenv("GROQ_API_KEY")
+org_id = os.getenv("GROQ_ORG_ID")
 
-groq_api_key = os.environ["GROQ_API_KEY"]
-print(groq_api_key)  # Print the API key
+# Set the model and endpoint
+model_id = "llama-3.2-90b-vision-preview"
+endpoint = "https://api.groq.com/openai/v1/chat/completions"
 
-# Initialize Groq LLM
-llm = ChatGroq(
-    model_name="llama-3.3-70b-versatile",
-    temperature=0.7
-)
+def extract_characters_from_image(image_path):
+    # Open the image file
+    with open(image_path, "rb") as f:
+        image_data = f.read()
 
-# Define the expected JSON structure
-parser = JsonOutputParser(pydantic_object={
-    "type": "object",
-    "properties": {
-        "name": {"type": "string"},
-        "price": {"type": "number"},
-        # "features": {
-        #     "type": "array",
-        #     "items": {"type": "string"}
-        # }
+    # Encode the image data as base64
+    image_base64 = "data:image/jpeg;base64," + base64.b64encode(image_data).decode("utf-8")
+    print(image_base64)
+    # Create the request payload
+    payload = {
+        "model": model_id,
+        "messages": [
+            {"role": "assistant", "content": {"image": image_base64}},
+        ],
+        "max_tokens": 1024
     }
-})
 
-# Create a simple prompt
-prompt = ChatPromptTemplate.from_messages([
-    ("system", """Extract product details into JSON with this structure:
-        {{
-            "name": "product name here",
-            "price": number_here_without_currency_symbol,
-            "features": ["feature1", "feature2", "feature3"]
-        }}"""),
-    ("user", "{input}")
-])
+    # Set the headers
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+        "X-Organization-Id": org_id
+    }
 
-# Create the chain that guarantees JSON output
-chain = prompt | llm | parser
+    # Send the request
+    response = requests.post(endpoint, headers=headers, json=payload)
 
-def parse_product(description: str) -> None:
-    result = chain.invoke({"input": description})
-    name = result['name']
-    price = result['price']
-    return name, price
+    # Check the response status code
+    if response.status_code == 200:
+        response_json = response.json()
+        text_response = response_json["choices"][0]["message"]["content"]
+        return text_response
+    else:
+        return "Error: Unable to process image"
 
-# Example usage
-description = """The Kees Van Der Westen Speedster is a high-end, single-group espresso machine known for its precision, performance, 
-and industrial design. Handcrafted in the Netherlands, it features dual boilers for brewing and steaming, PID temperature control for 
-consistency, and a unique pre-infusion system to enhance flavor extraction. Designed for enthusiasts and professionals, it offers 
-customizable aesthetics, exceptional thermal stability, and intuitive operation via a lever system. The pricing is approximatelyt $14,499 
-depending on the retailer and customization options."""
-
-name_and_price_list = parse_product(description)
-print(name_and_price_list[0], " + $", name_and_price_list[1])
+# Test the function
+image_path = "barcode.jpg"
+print(extract_characters_from_image(image_path))

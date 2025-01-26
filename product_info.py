@@ -56,4 +56,4 @@ material_content = "85% polyester, 15% acrylic"
 description = f"Given {brand_name} {product_type} with material content {material_content}, rate the apparel item out of ten for sustainability."
 
 returned_list = parse_product(description)
-print(f"Rating: {returned_list[0]} \nDetails: {returned_list[1]}")
+print(f"Rating: {returned_list[0]}/10 \nDetails: {returned_list[1]}")

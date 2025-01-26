@@ -8,13 +8,15 @@ import requests
 
 # Load the API key from the .env file
 load_dotenv()  # Load the .env file
+
 groq_api_key = os.environ["GROQ_API_KEY"]
+print(groq_api_key)  # Print the API key
 
 # Initialize the Groq LLM with the 90b-vision-preview model
 llm = ChatGroq(
     model_name="llama-3.2-90b-vision-preview",
     temperature=0.7,
-    api_key=groq_api_key
+    # api_key=groq_api_key
 )
 
 # Define the prompt template
@@ -42,6 +44,6 @@ def analyze_image(image_path: str) -> dict:
     return result
 
 # Example usage
-image_path = "barcode.jpeg"
+image_path = "barcode.jpg"
 image_analysis = analyze_image(image_path)
 print(image_analysis)

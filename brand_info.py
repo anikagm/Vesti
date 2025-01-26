@@ -60,4 +60,4 @@ brand_name = "Prada" # Example input - change later
 description = f"Rate the apparel brand {brand_name} out of ten for sustainability and humanitarianism. Then suggest a few apparel brans which are more sustainable but still within the same price range."
 
 returned_list = parse_product(description)
-print(f"Rating: {returned_list[0]} \nDetails: {returned_list[1]} \nDifferent Brands to Consider: {returned_list[2]}")
+print(f"Rating: {returned_list[0]}/10 \nDetails: {returned_list[1]} \nDifferent Brands to Consider: {returned_list[2]}")
