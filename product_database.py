@@ -41,7 +41,7 @@ products = {
         }
     }
 }
-print(products['374440989658'])
+
 def get_database_entry(barcode_num):
   product_info = products['374440989658'] # hardcoded
   brand = product_info["Brand"]
