@@ -29,7 +29,7 @@ def analyze_image(image_path):
             {
                 "role": "user",
                 "content": [
-                    {"type": "text", "text": "Return the digits under this barcode image. Your output should be a sequence of digits and nothing else."},
+                    {"type": "text", "text": "Return the brand, material content, and manufacture location depicted on this apparel tag. Your output should be an array of values in the following format, with no additional text or symbols: brand, material content, manufacturing location. An example output would be: Prada, 100% Acetate, Italy"},
                     {
                         "type": "image_url",
                         "image_url": {
@@ -42,5 +42,9 @@ def analyze_image(image_path):
         model="llama-3.2-11b-vision-preview",
     )
 
-    id_number = chat_completion.choices[0].message.content
-    return id_number
+    results = chat_completion.choices[0].message.content
+    results_list = results.split("\n") # list: brand, material, manufacturing location
+    return results_list
+
+brand = analyze_image("example_tag_picture.jpg")
+print(brand)

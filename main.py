@@ -10,8 +10,8 @@ import brand_info
 import product_info
 
 def get_id_number():
-    id_number = image_analysis.analyze_image("barcode.jpg")
-    product_detail_list = product_database.get_database_entry(id_number)
+    product_detail_list = image_analysis.analyze_image("example_tag_picture.jpg")
+    # product_detail_list = product_database.get_database_entry(id_number)
     brand = product_detail_list[0]
     product_type = product_detail_list[1]
     material_content = product_detail_list[2]
