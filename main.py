@@ -13,16 +13,15 @@ def get_id_number():
     product_detail_list = image_analysis.analyze_image("example_tag_picture.jpg")
     # product_detail_list = product_database.get_database_entry(id_number)
     brand = product_detail_list[0]
-    product_type = product_detail_list[1]
-    material_content = product_detail_list[2]
-    print(brand, product_type, material_content)
+    material_content = product_detail_list[1]
+    print(brand, material_content)
 
-    return brand, product_type, material_content
+    return brand, material_content
 
 def main():
-    brand, product_type, material_content = get_id_number()
-    product_info.get_product_info(brand, product_type, material_content)
-    allergen_info.allergen_details(product_type, material_content)
+    brand, material_content = get_id_number()
+    # product_info.get_product_info(brand, product_type, material_content)
+    allergen_info.allergen_details(material_content)
     brand_info.get_brand_info(brand)
 
 if __name__ == "__main__":

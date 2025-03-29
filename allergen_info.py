@@ -10,7 +10,7 @@ load_dotenv()  # Load the .env file
 
 groq_api_key = os.environ["GROQ_API_KEY"]
 
-def allergen_details(product_type, material_content):
+def allergen_details(material_content):
     # Initialize Groq LLM
     llm = ChatGroq(
         model_name="llama-3.3-70b-versatile",
@@ -42,7 +42,7 @@ def allergen_details(product_type, material_content):
     # Create the chain that guarantees JSON output
     chain = prompt | llm | parser
 
-    description = f"Given {product_type} with {material_content}, list all possible allergens or irritants in the apparel item. Also list any health hazards associated with each possible allergen."
+    description = f"Given a clothing article with {material_content}, list all possible allergens or irritants in the apparel item. Also list any health hazards associated with each possible allergen."
 
     result = chain.invoke({"input": description})
     allergens = result['allergens']

@@ -29,7 +29,7 @@ def analyze_image(image_path):
             {
                 "role": "user",
                 "content": [
-                    {"type": "text", "text": "Return the brand, material content, and manufacture location depicted on this apparel tag. Your output should be an array of values in the following format, with no additional text or symbols: brand, material content, manufacturing location. An example output would be: Prada, 100% Acetate, Italy"},
+                    {"type": "text", "text": "Return the brand and material content depicted on this apparel tag. Your output should be two values in the following format, with no additional text or symbols: Prada, 100% Acetate"},
                     {
                         "type": "image_url",
                         "image_url": {
@@ -43,7 +43,7 @@ def analyze_image(image_path):
     )
 
     results = chat_completion.choices[0].message.content
-    results_list = results.split("\n") # list: brand, material, manufacturing location
+    results_list = results.split(", ") # list: brand, material
     return results_list
 
 brand = analyze_image("example_tag_picture.jpg")
