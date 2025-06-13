@@ -1,9 +1,9 @@
 import React from 'react';
-import { Text, View } from "react-native";
+import { Text, SafeAreaView } from "react-native";
 
 export default function App() {
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: '#C6D8AA', 
@@ -11,11 +11,11 @@ export default function App() {
         alignItems: "center",
         borderWidth: 17,
         borderColor: '#8FBE7B',
-        borderRadius: 1,
+        borderRadius: 30,
         padding: 1
       }}
     >
       <Text style={{fontFamily: 'Verdana', fontSize: 40, color: '#8A4700'}}>vesti 🌱</Text>
-    </View>
+    </SafeAreaView>
   );
 }
