@@ -1,16 +1,18 @@
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import {Text, Image, StyleSheet, SafeAreaView } from 'react-native';
 import vestiLogo from '../assets/images/vesti-logo.png';
 
-const VestiCircleLogo = () => {
+const VestiWelcomePage= () => {
   return (
-    <View style={styles.container}>
-      <View style={styles.circleWrapper}>
-        <View style={styles.circle} />
-        <View style={[styles.circle, styles.overlappingCircle]} />
+    <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.circleWrapper}>
+        <SafeAreaView style={styles.circle} />
+        <SafeAreaView style={[styles.circle, styles.overlappingCircle]} />
         <Image source={vestiLogo} style={styles.image} />
-      </View>
-    </View>
+        <Text style={{ fontSize: 24, color: '#8A4700', marginBottom: 100}}>Enter the barcode image:</Text>    
+      <Text style={{fontFamily: 'Verdana', fontSize: 40, color: '#8A4700'}}>vesti 🌱</Text>
+      </SafeAreaView>
+    </SafeAreaView>
   );
 };
 
@@ -19,8 +21,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#C6D8AA',
     paddingBottom: 100,
+    borderWidth: 17,
+    borderColor: '#8FBE7B',
+    borderRadius: 30
   },
   circleWrapper: {
     width: 200,
@@ -52,5 +57,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default VestiCircleLogo;
+export default VestiWelcomePage;
 
