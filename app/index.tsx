@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     position: 'relative',
-    marginLeft: 22, // Shift right to visually center with overlap
+    marginLeft: 22,
   },
   circle: {
     width: 180,
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     left: 20,
     width: 132,
     height: 132,
-    resizeMode: 'contain', // or 'cover' if you want it to fill more
+    resizeMode: 'contain',
   },
 });
 
