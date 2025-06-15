@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, Image, StyleSheet, SafeAreaView } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, Text } from 'react-native';
 import vestiLogo from '../assets/images/vesti-logo.png';
 
 const VestiWelcomePage= () => {
@@ -9,8 +9,8 @@ const VestiWelcomePage= () => {
         <SafeAreaView style={styles.circle} />
         <SafeAreaView style={[styles.circle, styles.overlappingCircle]} />
         <Image source={vestiLogo} style={styles.image} />
-        <Text style={{ fontSize: 24, color: '#8A4700', marginBottom: 100}}>Enter the barcode image:</Text>    
-      <Text style={{fontFamily: 'Verdana', fontSize: 40, color: '#8A4700'}}>vesti 🌱</Text>
+        <Text style={{ fontSize: 24, color: '#8A4700', marginBottom: 100, position: 'absolute', top: -250, left: -30, width: 500}}>Enter the barcode image:</Text>    
+      <Text style={{fontFamily: 'Verdana', fontSize: 40, color: '#8A4700', position: 'absolute', top: -400, left: 30}}>vesti 🌱</Text>
       </SafeAreaView>
     </SafeAreaView>
   );
