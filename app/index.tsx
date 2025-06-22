@@ -1,20 +1,39 @@
+import { useRouter } from 'expo-router';
 import React from 'react';
-import { Image, SafeAreaView, StyleSheet, Text } from 'react-native';
+import { Image, Pressable, SafeAreaView, StyleSheet, Text } from 'react-native';
 import vestiLogo from '../assets/images/vesti-logo.png';
 
-const VestiWelcomePage= () => {
-  return (
+const VestiWelcomePage = () => {
+  const router = useRouter();
+  
+   return (
     <SafeAreaView style={styles.container}>
+
+      <Text style={{fontFamily: 'Verdana', fontSize: 40, color: '#8A4700', marginBottom: 100}}>
+          vesti 🌱
+        </Text>
+
+      <Text style={{fontFamily: 'Verdana', fontSize: 24, color: '#8A4700', marginBottom: 20}}>
+          enter the barcode image:
+        </Text>  
+
+      <SafeAreaView style={styles.buttonShadow} />
+
+      <Pressable style={styles.button} onPress={() => router.push('./results')}>
+        <Text style={{fontFamily: 'Verdana', fontSize: 20, color: '#8A4700'}}>upload image</Text>    
+      </Pressable>
+
+
       <SafeAreaView style={styles.circleWrapper}>
         <SafeAreaView style={styles.circle} />
         <SafeAreaView style={[styles.circle, styles.overlappingCircle]} />
         <Image source={vestiLogo} style={styles.image} />
-        <Text style={{ fontSize: 24, color: '#8A4700', marginBottom: 100, position: 'absolute', top: -250, left: -30, width: 500}}>Enter the barcode image:</Text>    
-      <Text style={{fontFamily: 'Verdana', fontSize: 40, color: '#8A4700', position: 'absolute', top: -400, left: 30}}>vesti 🌱</Text>
+
       </SafeAreaView>
+
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -47,7 +66,7 @@ const styles = StyleSheet.create({
     left: -6,
     backgroundColor: '#F7D2E8',
   },
-    image: {
+  image: {
     position: 'absolute',
     top: 21,
     left: 20,
@@ -55,7 +74,22 @@ const styles = StyleSheet.create({
     height: 132,
     resizeMode: 'contain',
   },
+  button: {
+    marginBottom: 100,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: '#F7D2E8'
+  },
+  buttonShadow: {
+    width: 175,
+    height: 40,
+    backgroundColor: '#F4BADC',
+    position: 'relative',
+    top: 50,
+    left: 5
+  }
 });
 
 export default VestiWelcomePage;
+
 
