@@ -11,9 +11,24 @@ const VestiResultsPage = () => {
       <SafeAreaView style={styles.buttonShadow} />
 
       <Pressable style={styles.button} onPress={() => setShowText(!showText)}>
-        <Text style={{fontFamily: 'Verdana', fontSize: 15, color: '#8A4700'}}>Click to explore sustainability info:</Text>    
+        <Text style={{fontFamily: 'Verdana', fontSize: 17, color: '#8A4700'}}>Click to explore sustainability info:</Text>    
       </Pressable>
-      {showText ? <Text style={{fontFamily: 'Verdana', fontSize: 15, color: '#8A4700'}}>Here are the results</Text> : null}
+      {showText &&
+        <SafeAreaView style={styles.textContainer}>
+        <SafeAreaView style={styles.productInfoContainer}> 
+          <Text style={styles.titleText}> product sustainability info {'\n'} </Text>
+          <Text style={styles.normalText}>
+            The product features a mix of natural and synthetic materials, with cotton and lyocell providing an eco-friendly base, but synthetic components somewhat reducing overall sustainability.
+          </Text> 
+        </SafeAreaView> 
+        
+        <SafeAreaView style={styles.brandInfoContainer}> 
+          <Text style={styles.titleText}> brand sustainability info {'\n'}  </Text>
+          <Text style={styles.normalText}>
+            Levi's prioritizes sustainability with responsible supply chains, water conservation, and recycling, reducing environmental impact while addressing social and labor concerns with ongoing efforts gradually.
+          </Text> 
+        </SafeAreaView>
+        </SafeAreaView>}
 
     </SafeAreaView>
   );
@@ -65,12 +80,49 @@ const styles = StyleSheet.create({
     backgroundColor: '#F7D2E8'
   },
   buttonShadow: {
-    width: 300,
+    width: 335,
     height: 40,
     backgroundColor: '#F4BADC',
     position: 'relative',
-    top: 45,
-    left: 5
+    top: 47,
+    left: 7
+  },
+  textContainer: {
+    width: 300,
+    height: 100,
+    justifyContent: 'space-evenly',
+    flexDirection: 'row'
+
+  },
+  productInfoContainer: {
+    width: 170,
+    height: 100,
+    marginRight: 10,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  brandInfoContainer: {
+    width: 170,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  titleText: {
+    fontWeight: 'bold',
+    fontFamily: 'Verdana', 
+    fontSize: 9, 
+    color: '#8A4700', 
+    textAlign: 'center',
+  },
+  normalText: {
+    fontFamily: 'Verdana', 
+    fontSize: 9, 
+    color: '#8A4700', 
+    textAlign: 'center', 
+    marginLeft: 6,
+    marginRight: 6,
+    marginBottom: 6,
+    marginTop: 3
   }
 });
 
